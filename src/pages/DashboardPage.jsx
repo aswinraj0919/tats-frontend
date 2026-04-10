@@ -92,7 +92,7 @@ export default function DashboardPage() {
             </svg>
           </div>
           <div>
-            <div className="dash-sidebar-brand-name">TalentBridge</div>
+            <div className="dash-sidebar-brand-name">TATS</div>
             <div className="dash-sidebar-brand-sub">Admin Panel</div>
           </div>
         </div>

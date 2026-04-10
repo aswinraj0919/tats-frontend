@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
               <circle cx="14" cy="10" r="2" stroke="white" strokeWidth="1.5"/>
             </svg>
           </div>
-          <span className="login-brand-name">TalentBridge</span>
+          <span className="login-brand-name">TATS</span>
         </div>
 
         <div className="login-card">
@@ -124,7 +124,7 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        <p className="login-footer">© 2025 TalentBridge. Secure admin access.</p>
+        <p className="login-footer">© 2025 TATS. Secure admin access.</p>
       </div>
     </div>
   );

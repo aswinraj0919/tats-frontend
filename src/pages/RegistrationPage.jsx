@@ -120,7 +120,7 @@ export default function RegistrationPage() {
             </svg>
           </div>
           <div>
-            <div className="reg-brand-name">TalentBridge</div>
+            <div className="reg-brand-name">TATS</div>
             <div className="reg-brand-sub">Manpower Solutions</div>
           </div>
         </div>
@@ -412,7 +412,7 @@ export default function RegistrationPage() {
           )}
         </div>
 
-        <p className="reg-footer">© 2025 TalentBridge Manpower Solutions. All rights reserved.</p>
+        <p className="reg-footer">© 2025 TATS Manpower Solutions. All rights reserved.</p>
       </div>
     </div>
   );
