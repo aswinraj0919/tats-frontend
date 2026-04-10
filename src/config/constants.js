@@ -44,3 +44,10 @@ export const DOMAINS = {
     "HSE Manager","Safety Manager"
   ],
 };
+
+export const DOMAIN_COLORS = {
+  Civil:      { bg: '#fef3c7', text: '#92400e', dot: '#f59e0b' },
+  Mechanical: { bg: '#dbeafe', text: '#1e40af', dot: '#3b82f6' },
+  General:    { bg: '#d1fae5', text: '#065f46', dot: '#10b981' },
+  Safety:     { bg: '#fee2e2', text: '#991b1b', dot: '#ef4444' },
+};

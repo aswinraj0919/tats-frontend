@@ -2,17 +2,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import API from '../config/api';
+import './AdminLoginPage.css';
 
 export default function AdminLoginPage() {
   const [form, setForm] = useState({ username: '', password: '' });
-  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
   const validate = () => {
     const e = {};
     if (!form.username.trim()) e.username = 'Username is required';
-    if (!form.password) e.password = 'Password is required';
+    if (!form.password)        e.password = 'Password is required';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -27,58 +29,103 @@ export default function AdminLoginPage() {
       localStorage.setItem('refresh_token', res.data.refresh);
       localStorage.setItem('role', res.data.role);
       localStorage.setItem('username', res.data.username);
-      toast.success(`Welcome, ${res.data.username}!`);
+      toast.success(`Welcome back, ${res.data.username}!`);
       navigate('/admin/dashboard');
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Login failed.');
-    } finally {
-      setLoading(false);
-    }
+      toast.error(err.response?.data?.error || 'Invalid credentials.');
+    } finally { setLoading(false); }
   };
 
   return (
-    <div style={outer}>
-      <div style={card}>
-        <div style={headerStyle}>
-          <h2 style={{ margin: 0, fontSize: 22 }}>Admin Portal</h2>
-          <p style={{ margin: '4px 0 0', opacity: 0.8, fontSize: 13 }}>Manpower Management System</p>
+    <div className="login-page">
+      <div className="login-bg">
+        <div className="login-bg-blob login-bg-blob-1" />
+        <div className="login-bg-blob login-bg-blob-2" />
+        <div className="login-bg-grid" />
+      </div>
+
+      <div className="login-container">
+        <div className="login-brand">
+          <div className="login-logo">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M7 21V10l7-4 7 4v11" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <rect x="11" y="15" width="6" height="6" rx="1" stroke="white" strokeWidth="1.5"/>
+              <circle cx="14" cy="10" r="2" stroke="white" strokeWidth="1.5"/>
+            </svg>
+          </div>
+          <span className="login-brand-name">TalentBridge</span>
         </div>
-        <form onSubmit={handleLogin} style={formStyle}>
-          <div style={field}>
-            <label style={label}>Username</label>
-            <input style={input(errors.username)} value={form.username}
-              onChange={e => setForm(p => ({ ...p, username: e.target.value }))}
-              placeholder="Enter username" />
-            {errors.username && <span style={err}>{errors.username}</span>}
+
+        <div className="login-card">
+          <div className="login-card-top">
+            <h1>Admin Portal</h1>
+            <p>Sign in to manage candidates and staff</p>
           </div>
-          <div style={field}>
-            <label style={label}>Password</label>
-            <input type="password" style={input(errors.password)} value={form.password}
-              onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
-              placeholder="Enter password" />
-            {errors.password && <span style={err}>{errors.password}</span>}
+
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="login-field">
+              <label>Username</label>
+              <div className={`login-input-wrap ${errors.username ? 'error' : ''}`}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="login-ico">
+                  <circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.3"/>
+                  <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                </svg>
+                <input
+                  type="text" placeholder="Enter your username"
+                  value={form.username}
+                  onChange={e => { setForm(p => ({...p, username: e.target.value})); setErrors(p => ({...p, username:''})); }}
+                  autoComplete="username"
+                />
+              </div>
+              {errors.username && <span className="login-err">{errors.username}</span>}
+            </div>
+
+            <div className="login-field">
+              <label>Password</label>
+              <div className={`login-input-wrap ${errors.password ? 'error' : ''}`}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="login-ico">
+                  <rect x="3" y="7" width="10" height="7" rx="2" stroke="currentColor" strokeWidth="1.3"/>
+                  <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                  <circle cx="8" cy="10.5" r="1" fill="currentColor"/>
+                </svg>
+                <input
+                  type={showPass ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  value={form.password}
+                  onChange={e => { setForm(p => ({...p, password: e.target.value})); setErrors(p => ({...p, password:''})); }}
+                  autoComplete="current-password"
+                />
+                <button type="button" className="login-eye" onClick={() => setShowPass(p => !p)}>
+                  {showPass ? (
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M2 8s2.5-5 6-5 6 5 6 5-2.5 5-6 5-6-5-6-5z" stroke="currentColor" strokeWidth="1.3"/>
+                      <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.3"/>
+                      <path d="M2 2l12 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M2 8s2.5-5 6-5 6 5 6 5-2.5 5-6 5-6-5-6-5z" stroke="currentColor" strokeWidth="1.3"/>
+                      <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.3"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
+              {errors.password && <span className="login-err">{errors.password}</span>}
+            </div>
+
+            <button type="submit" className="login-btn" disabled={loading}>
+              {loading ? <span className="login-spinner" /> : null}
+              {loading ? 'Signing in…' : 'Sign In to Dashboard'}
+            </button>
+          </form>
+
+          <div className="login-card-footer">
+            <a href="/" className="login-back-link">← Back to Registration</a>
           </div>
-          <button type="submit" style={btn} disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
+        </div>
+
+        <p className="login-footer">© 2025 TalentBridge. Secure admin access.</p>
       </div>
     </div>
   );
 }
-
-const outer = { minHeight: '100vh', background: '#f0f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center' };
-const card = { background: 'white', borderRadius: 16, boxShadow: '0 4px 24px rgba(0,0,0,0.10)', width: '100%', maxWidth: 400, overflow: 'hidden' };
-const headerStyle = { background: '#1a56db', color: 'white', padding: '28px 32px' };
-const formStyle = { padding: 32, display: 'flex', flexDirection: 'column', gap: 18 };
-const field = { display: 'flex', flexDirection: 'column', gap: 5 };
-const label = { fontSize: 13, fontWeight: 600, color: '#374151' };
-const input = (hasErr) => ({
-  padding: '10px 14px', border: `1.5px solid ${hasErr ? '#ef4444' : '#e2e8f0'}`,
-  borderRadius: 8, fontSize: 14, outline: 'none',
-});
-const err = { fontSize: 12, color: '#ef4444' };
-const btn = {
-  background: '#1a56db', color: 'white', padding: '12px', border: 'none',
-  borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: 'pointer',
-};
