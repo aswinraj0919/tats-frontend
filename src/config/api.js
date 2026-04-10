@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'https://tats-backend-8vg5.onrender.com/api',
 });
 
 API.interceptors.request.use((config) => {
